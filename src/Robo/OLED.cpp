@@ -11,9 +11,9 @@ OLED::OLED(Brain& robo_brain) :
 
 void OLED::setup()
 {
-  m_display.begin(SSD1306_SWITCHCAPVCC, 0x3D);
+  m_display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 
-  m_display.clearDisplay();
+  m_display.display();
 }
 
 void OLED::print(const char* message)
@@ -23,6 +23,12 @@ void OLED::print(const char* message)
   m_display.setTextColor(WHITE);
   m_display.setCursor(0, 0);
   m_display.println(message);
+  m_display.display();
+}
+
+void OLED::drawDot(const int x, const int y)
+{
+  m_display.drawPixel(x, y, SSD1306_WHITE);
   m_display.display();
 }
 

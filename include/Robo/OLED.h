@@ -18,6 +18,7 @@ public:
 
   void setup() override;
   void print(const char* message);
+  void drawDot(const int x, const int y);
   void clear();
 private:
   Adafruit_SSD1306 m_display;

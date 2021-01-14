@@ -38,7 +38,10 @@ void loop()
 
   delay(1000);
 
-  robo_oled.print("test");
+  robo_oled.drawDot(0, 0);
+  robo_oled.drawDot(127, 0);
+  robo_oled.drawDot(127, 63);
+  robo_oled.drawDot(0, 63);
 
   delay(1000);
 }
