@@ -14,13 +14,12 @@ class OLED : public AbstractPart
 {
   DISABLE_COPY_AND_ASSIGN(OLED)
 public:
-  OLED(Brain& robo_brain, const int pin);
+  explicit OLED(Brain& robo_brain);
 
-  inline void setup() override;
-
-  inline void reset();
+  void setup() override;
+  void print(const char* message);
+  void clear();
 private:
-  const int m_pin = 0;
   Adafruit_SSD1306 m_display;
 };
 }  // namespace Robo
