@@ -17,4 +17,9 @@ void Servo::setup()
 void Servo::reset() {
   m_servo.write(90);
 }
+
+void Servo::set_angle(const int angle)
+{
+  m_servo.write(angle);
+}
 }  // namespace Robo

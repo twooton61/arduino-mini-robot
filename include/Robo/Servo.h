@@ -14,8 +14,8 @@ public:
   Servo(Brain& robo_brain, const int pin);
 
   void setup() override;
-
   void reset();
+  void set_angle(const int angle);
 private:
   const int m_pin = 0;
   ::Servo m_servo;
