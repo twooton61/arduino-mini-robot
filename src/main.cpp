@@ -13,10 +13,11 @@
 
 Robo::Brain robo_brain;
 
-Robo::Servo robo_servo_1(robo_brain, DIGITAL_IO_PIN(2));
-Robo::Servo robo_servo_2(robo_brain, DIGITAL_IO_PIN(3));
-Robo::Servo robo_servo_3(robo_brain, DIGITAL_IO_PIN(4));
-Robo::Servo robo_servo_4(robo_brain, DIGITAL_IO_PIN(5));
+
+Robo::Servo robo_servo_front_left(robo_brain, DIGITAL_IO_PIN(12));
+Robo::Servo robo_servo_front_right(robo_brain, DIGITAL_IO_PIN(11));
+Robo::Servo robo_servo_back_left(robo_brain, DIGITAL_IO_PIN(10));
+Robo::Servo robo_servo_back_right(robo_brain, DIGITAL_IO_PIN(9));
 
 Robo::OLED robo_oled(robo_brain);
 
@@ -31,23 +32,25 @@ void setup()
 
 void loop()
 {
-  Serial.println("loop2");
+  Serial.println("loop3");
+
   robo_oled.clear();
 
+  robo_servo_front_right.set_angle(180);
+  robo_servo_front_left.set_angle(0);
 
-  robo_servo_1.reset();
-  robo_servo_2.reset();
-  robo_servo_3.reset();
-  robo_servo_4.reset();
-  robo_oled.print("0");
+  robo_servo_back_left.set_angle(180);
+  robo_servo_back_right.set_angle(0);
 
   delay(1000);
 
-  robo_servo_1.set_angle(20);
-  robo_servo_2.set_angle(20);
-  robo_servo_3.set_angle(20);
-  robo_servo_4.set_angle(20);
-  robo_oled.print("1");
+  robo_oled.clear();
 
-  delay(2000);
+  robo_servo_front_right.set_angle(0);
+  robo_servo_front_left.set_angle(180);
+
+  robo_servo_back_left.set_angle(0);
+  robo_servo_back_right.set_angle(180);
+
+  delay(1000);
 }
