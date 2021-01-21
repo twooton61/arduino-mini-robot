@@ -15,7 +15,7 @@ void Servo::setup()
 }
 
 void Servo::reset() {
-  m_servo.write(90);
+  m_servo.write(0);
 }
 
 void Servo::set_angle(const int angle)
