@@ -4,7 +4,7 @@
 
 namespace Robo {
 Servo::Servo(Brain& robo_brain, const int pin) :
-  AbstractPart(robo_brain, "Servo"),
+  AbstractPart(robo_brain, String("Servo on pin ") + String(pin)),
   m_pin(pin)
 {
 }
