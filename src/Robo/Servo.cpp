@@ -12,14 +12,20 @@ Servo::Servo(Brain& robo_brain, const int pin) :
 void Servo::setup()
 {
   m_servo.attach(m_pin);
+
+  delay(100);
 }
 
 void Servo::reset() {
-  m_servo.write(0);
+  set_angle(0);
 }
 
 void Servo::set_angle(const int angle)
 {
+  if (m_servo.read() == angle) {
+    return;
+  }
+
   m_servo.write(angle);
 }
 }  // namespace Robo

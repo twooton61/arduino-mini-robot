@@ -13,6 +13,7 @@ IRReceiver::IRReceiver(Brain& robo_brain, const int pin) :
 void IRReceiver::setup()
 {
   m_ir_receiver.enableIRIn();
+  m_ir_receiver.blink13(true);
 }
 
 bool IRReceiver::detect_signal()
