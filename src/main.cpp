@@ -13,20 +13,25 @@
 
 Robo::Brain robo_brain;
 
-Robo::Servo robo_servo_front_left_hip(robo_brain, DIGITAL_IO_PIN(12), 90, 45, 0);
-Robo::Servo robo_servo_front_right_hip(robo_brain, DIGITAL_IO_PIN(11), 90, 135, 180);
-Robo::Servo robo_servo_back_left_hip(robo_brain, DIGITAL_IO_PIN(10), 90, 135, 180);
-Robo::Servo robo_servo_back_right_hip(robo_brain, DIGITAL_IO_PIN(9), 90, 45, 0);
+Robo::Servo robo_servo_front_left_hip(robo_brain, DIGITAL_IO_PIN(12), 90, Robo::Servo::ANGLE_SHRINKS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_front_right_hip(robo_brain, DIGITAL_IO_PIN(11), 90, Robo::Servo::ANGLE_GROWS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_back_left_hip(robo_brain, DIGITAL_IO_PIN(10), 90, Robo::Servo::ANGLE_GROWS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_back_right_hip(robo_brain, DIGITAL_IO_PIN(9), 90, Robo::Servo::ANGLE_SHRINKS_TO_STRAIGHTEN);
 
-Robo::Servo robo_servo_front_left_foot(robo_brain, DIGITAL_IO_PIN(8), 90, 45, 0);
-Robo::Servo robo_servo_front_right_foot(robo_brain, DIGITAL_IO_PIN(7), 0, 45, 90);
-Robo::Servo robo_servo_back_left_foot(robo_brain, DIGITAL_IO_PIN(6), 0, 45, 90);
-Robo::Servo robo_servo_back_right_foot(robo_brain, DIGITAL_IO_PIN(5), 90, 45, 0);
+Robo::Servo robo_servo_front_left_knee(robo_brain, DIGITAL_IO_PIN(8), 90, Robo::Servo::ANGLE_SHRINKS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_front_right_knee(robo_brain, DIGITAL_IO_PIN(7), 0, Robo::Servo::ANGLE_GROWS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_back_left_knee(robo_brain, DIGITAL_IO_PIN(6), 0, Robo::Servo::ANGLE_GROWS_TO_STRAIGHTEN);
+Robo::Servo robo_servo_back_right_knee(robo_brain, DIGITAL_IO_PIN(5), 90, Robo::Servo::ANGLE_SHRINKS_TO_STRAIGHTEN);
 
 Robo::IRReceiver robo_ir_receiver(robo_brain, DIGITAL_IO_PIN(4));
 
 namespace spider
 {
+inline void idle()
+{
+  delay(100);
+}
+
 inline void hips_sit()
 {
   robo_servo_front_right_hip.flat();
@@ -54,61 +59,56 @@ inline void hips_straight()
 
 inline void feet_sit()
 {
-  robo_servo_front_right_foot.flat();
-  robo_servo_front_left_foot.flat();
+  robo_servo_front_right_knee.flat();
+  robo_servo_front_left_knee.flat();
 
-  robo_servo_back_left_foot.flat();
-  robo_servo_back_right_foot.flat();
+  robo_servo_back_left_knee.flat();
+  robo_servo_back_right_knee.flat();
 }
 
 inline void feet_base() {
-  robo_servo_front_right_foot.base();
-  robo_servo_front_left_foot.base();
+  robo_servo_front_right_knee.base();
+  robo_servo_front_left_knee.base();
 
-  robo_servo_back_left_foot.base();
-  robo_servo_back_right_foot.base();
+  robo_servo_back_left_knee.base();
+  robo_servo_back_right_knee.base();
 }
 
-inline void feet_tippy_toe()
+inline void feet_straight()
 {
-  robo_servo_front_right_foot.tippy_toe();
-  robo_servo_front_left_foot.tippy_toe();
+  robo_servo_front_right_knee.straight();
+  robo_servo_front_left_knee.straight();
 
-  robo_servo_back_left_foot.tippy_toe();
-  robo_servo_back_right_foot.tippy_toe();
+  robo_servo_back_left_knee.straight();
+  robo_servo_back_right_knee.straight();
 }
 
 inline void step_front_right()
 {
+  hips_base();
+  idle();
+
+  feet_base();
+  idle();
+
+  robo_servo_front_right_knee.straight();
+  robo_servo_back_right_knee.straight();
+  robo_servo_back_left_knee.straight();
+
+  idle();
+
+  robo_servo_front_right_knee.flat();
+  robo_servo_front_right_hip.straight();
+  idle();
+
+  robo_servo_front_right_knee.straight();
+  idle();
 
   hips_base();
-  delay(500);
+  idle();
 
-  feet_tippy_toe();
-  delay(500);
-
-  // lift front right foot
-  robo_servo_front_right_foot.set_angle(45);
-  delay(500);
-
-  // move front right hip to staight in front
-  robo_servo_front_right_hip.set_angle(180);
-  delay(500);
-
-  // put front right foot on ground
-  robo_servo_front_right_foot.set_angle(90);
-  delay(500);
-
-  // base all the other feet
-  robo_servo_front_left_foot.set_angle(0);
-  robo_servo_back_left_foot.set_angle(90);
-  robo_servo_back_right_foot.set_angle(0);
-
-  // step
-  robo_servo_front_right_hip.set_angle(135);
-
-  // return to base
-  robo_servo_front_right_foot.set_angle(45);
+  feet_straight();
+  idle();
 }
 
 }  // namespace spider
@@ -173,7 +173,7 @@ void loop()
       break;
       case 0xFFC23D:
       Serial.println(">|");
-      spider::feet_tippy_toe();
+      spider::feet_straight();
       delay(1000);
 
       break;

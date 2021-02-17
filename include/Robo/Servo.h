@@ -11,24 +11,25 @@ class Servo : public AbstractPart
 {
   DISABLE_COPY_AND_ASSIGN(Servo)
 public:
-  Servo(Brain& robo_brain, const int pin, const int flat_angle, const int base_angle, const int tippy_toe_angle);
+  static const int ANGLE_GROWS_TO_STAND = 1;
+  static const int ANGLE_GROWS_TO_STRAIGHTEN = 1;
+  static const int ANGLE_SHRINKS_TO_STAND = -1;
+  static const int ANGLE_SHRINKS_TO_STRAIGHTEN = -1;
+
+  Servo(Brain& robo_brain, const int pin, const int flat_angle, const int stand_straighten_modifier);
 
   void setup() override;
-  void reset();
-  void set_angle(const int angle);
 
   void flat();
-
   void base();
-
-  void tippy_toe();
   void straight();
 private:
   const int m_pin = 0;
   ::Servo m_servo;
   const int m_flat_angle;
-  const int m_base_angle;
-  const int m_tippy_toe_angle;
+  const int m_stand_straighten_modifier;
+
+  void set_angle(const int angle);
 };
 }  // namespace Robo
 
