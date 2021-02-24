@@ -23,6 +23,7 @@ public:
   void flat();
   void base();
   void straight();
+  void lift();
 private:
   const int m_pin = 0;
   ::Servo m_servo;
